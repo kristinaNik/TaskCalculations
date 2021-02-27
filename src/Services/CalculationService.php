@@ -17,6 +17,7 @@ class CalculationService
     private $commissionFee = [];
     private $converter;
 
+
     /**
      * CalculationService constructor.
      * @param ConverterService $converter
@@ -32,6 +33,7 @@ class CalculationService
      */
     public function calculate(array $transactionData): array
     {
+
         /** @var Transaction $data */
         foreach ($transactionData as $data) {
 
@@ -41,13 +43,18 @@ class CalculationService
 
             if ($data->getOperationType() === self::WITHDRAW && $data->getUserType() === self::PRIVATE_CLIENT) {
                 if ($data->getOperationCurrency() != self::EUR) {
-                    $amount = $this->converter->convert($data->getOperationAmount(), $data->getOperationCurrency());
+                    $amount = ($this->converter->convert($data->getOperationAmount(), $data->getOperationCurrency()) * 0.3) / 100;
                 } else {
-                    $amount = ($data->getOperationAmount() * 0.03) / 100;
+                    $amount = ($data->getOperationAmount() * 0.3) / 100;
                 }
 
                 $this->commissionFee[] = $amount;
             }
+
+            if ($data->getOperationType() === self::WITHDRAW && $data->getUserType() === self::BUSINESS_CLIENT) {
+                $this->commissionFee[] = ($data->getOperationAmount() * 0.5) /100;
+            }
+
         }
 
        return $this->commissionFee;

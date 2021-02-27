@@ -29,10 +29,10 @@ class ConverterService
 
         foreach ($rates as $rate => $value) {
             if ($rate === $currency) {
-                $this->convertedAmount = ($amount * $value) / 100;
+                $this->convertedAmount = $amount / $value;
             }
         }
 
-        return $this->convertedAmount;
+        return round($this->convertedAmount, 2);
     }
 }
