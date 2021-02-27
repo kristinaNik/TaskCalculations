@@ -15,26 +15,24 @@ class ApiConnectionService
      */
     private $client;
 
-    /**
-     * @var HttpOptions
-     */
-    private $options;
-
-
     public const API_URL = 'https://api.exchangeratesapi.io/latest';
 
     /**
      * ApiClientService constructor.
      * @param HttpClientInterface $client
-     * @param HttpOptions $options
      */
-    public function __construct(HttpClientInterface $client,HttpOptions $options)
+    public function __construct(HttpClientInterface $client)
     {
         $this->client = $client;
-        $this->options = $options;
     }
 
-
+    /**
+     * @return mixed
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     */
     public function getExchangeRates()
     {
         $response = $this->client->request('GET', self::API_URL);

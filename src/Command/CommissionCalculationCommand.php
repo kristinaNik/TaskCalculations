@@ -4,12 +4,13 @@ namespace App\Command;
 
 
 use App\Handlers\ApiHandler;
+use App\Handlers\DataHandler;
 use App\Interfaces\ApiInterface;
+use App\Interfaces\DataInterface;
 use App\Interfaces\FileInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -28,17 +29,24 @@ class CommissionCalculationCommand extends Command
      */
     private $apiHandler;
 
+    /**
+     * @var DataInterface
+     */
+    private $dataHandler;
+
 
     /**
      * CommissionCalculationCommand constructor.
      * @param FileInterface $fileHandler
      * @param ApiInterface $apiHandler
+     * @param DataInterface $dataHandler
      */
-    public function __construct(FileInterface $fileHandler, ApiInterface $apiHandler)
+    public function __construct(FileInterface $fileHandler, ApiInterface $apiHandler, DataInterface $dataHandler)
     {
         parent::__construct();
         $this->fileHandler = $fileHandler;
         $this->apiHandler = $apiHandler;
+        $this->dataHandler = $dataHandler;
     }
 
 
@@ -53,7 +61,8 @@ class CommissionCalculationCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $this->fileHandler->handleCsvData($input->getArgument('file_path'));
+        $file = $this->fileHandler->handleCsvData($input->getArgument('file_path'));
+        $this->dataHandler->setDtoDataCollection($file);
         $this->apiHandler->handleApiData();
         $io->success("calculations");
 
