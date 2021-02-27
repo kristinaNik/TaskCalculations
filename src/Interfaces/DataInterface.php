@@ -6,5 +6,5 @@ namespace App\Interfaces;
 
 interface DataInterface
 {
-    public function setDtoDataCollection($fileData): array;
+    public function setDataCollection($fileData): array;
 }

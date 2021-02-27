@@ -3,8 +3,6 @@
 
 namespace App\Services;
 
-
-use Symfony\Component\HttpClient\HttpOptions;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class ApiConnectionService

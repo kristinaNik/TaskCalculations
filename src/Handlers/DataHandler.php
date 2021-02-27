@@ -3,36 +3,36 @@
 
 namespace App\Handlers;
 
-use App\Data\DTO\DataDto;
 use App\Interfaces\DataInterface;
+use App\Model\Transaction;
 
 class DataHandler implements DataInterface
 {
     /**
      * @var array
      */
-    private $dataDto = [];
+    private $data = [];
 
     /**
      * @param $fileData
      *
      * @return array
      */
-    public function setDtoDataCollection($fileData): array
+    public function setDataCollection($fileData): array
     {
         foreach($fileData as $value) {
             $preparedData = $this->prepareData($value);
-            $this->dataDto[] = new DataDto(
+            $this->data[] = new Transaction(
                 $preparedData['date'],
                 (int)$preparedData['userId'],
                 $preparedData['userType'],
                 $preparedData['operationType'],
-                $preparedData['operationAmount'],
+                (float)$preparedData['operationAmount'],
                 $preparedData['operationCurrency']
             );
         }
 
-        return $this->dataDto;
+        return $this->data;
     }
 
 

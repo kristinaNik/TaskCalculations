@@ -2,6 +2,6 @@
     
   1. **run command**
      
-    bin/console calculate:commission-fee src/Data/input.csv
+    bin/console calculate:commission src/Data/input.csv
 
 

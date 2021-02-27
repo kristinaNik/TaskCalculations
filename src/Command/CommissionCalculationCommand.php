@@ -2,12 +2,10 @@
 
 namespace App\Command;
 
-
-use App\Handlers\ApiHandler;
-use App\Handlers\DataHandler;
-use App\Interfaces\ApiInterface;
 use App\Interfaces\DataInterface;
 use App\Interfaces\FileInterface;
+use App\Services\CalculationService;
+use App\Services\ConverterService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,37 +14,34 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class CommissionCalculationCommand extends Command
 {
-    protected static $defaultName = 'calculate:commission-fee';
-    protected static $defaultDescription = 'Calculate commission fee';
+    protected static $defaultName = 'calculate:commission';
+    protected static $defaultDescription = 'Calculate commission';
 
     /**
      * @var FileInterface
      */
     private $fileHandler;
 
-    /**
-     * @var ApiInterface
-     */
-    private $apiHandler;
 
     /**
      * @var DataInterface
      */
     private $dataHandler;
 
+    private $service;
+
 
     /**
      * CommissionCalculationCommand constructor.
      * @param FileInterface $fileHandler
-     * @param ApiInterface $apiHandler
      * @param DataInterface $dataHandler
      */
-    public function __construct(FileInterface $fileHandler, ApiInterface $apiHandler, DataInterface $dataHandler)
+    public function __construct(FileInterface $fileHandler, DataInterface $dataHandler, CalculationService $service)
     {
         parent::__construct();
         $this->fileHandler = $fileHandler;
-        $this->apiHandler = $apiHandler;
         $this->dataHandler = $dataHandler;
+        $this->service = $service;
     }
 
 
@@ -62,9 +57,10 @@ class CommissionCalculationCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $file = $this->fileHandler->handleCsvData($input->getArgument('file_path'));
-        $this->dataHandler->setDtoDataCollection($file);
-        $this->apiHandler->handleApiData();
-        $io->success("calculations");
+        $data =  $this->dataHandler->setDataCollection($file);
+        $calculateCommissions = $this->service->calculate($data);
+
+        $io->success($this->displayCalculatedResult($calculateCommissions));
 
         return Command::SUCCESS;
     }
@@ -73,8 +69,8 @@ class CommissionCalculationCommand extends Command
      * @todo display calculations
      * @return string
      */
-    private function displayCalculatedResult()
+    private function displayCalculatedResult($calculateCommissions)
     {
-
+        return array_values($calculateCommissions);
     }
 }

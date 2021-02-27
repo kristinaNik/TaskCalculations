@@ -1,13 +1,12 @@
 <?php
 
 
-namespace App\Data\DTO;
+namespace App\Model;
 
 
-class DataDto
+class Transaction
 {
-
-    private string $date;
+    private $date;
     private $userId;
     private $userType;
     private $operationType;
@@ -24,7 +23,7 @@ class DataDto
      * @param $operationAmount
      * @param $operationCurrency
      */
-    public function __construct(string $date, int $userId, string $userType, string $operationType, string $operationAmount, string $operationCurrency)
+    public function __construct(string $date, int $userId, string $userType, string $operationType, float $operationAmount, string $operationCurrency)
     {
         $this->date = $date;
         $this->userId = $userId;
