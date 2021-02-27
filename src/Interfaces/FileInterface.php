@@ -11,5 +11,5 @@ interface FileInterface
      *
      * @return array
      */
-    public function getCsvData(string $args): array;
+    public function handleCsvData(string $args): array;
 }

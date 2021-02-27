@@ -13,7 +13,7 @@ class FileHandler implements FileInterface
      * @return array
      * @throws \Exception
      */
-    public function getCsvData(string $file): array
+    public function handleCsvData(string $file): array
     {
         $data = [];
         if ($this->check($file)) {
