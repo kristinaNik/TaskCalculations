@@ -65,7 +65,7 @@ class CalculationService implements CalculationInterface
     {
         $convertedAmount = $this->converter->convert($data->getOperationAmount(), $data->getOperationCurrency());
 
-        return ($convertedAmount * OperationType::WITHDRAW_PRIVATE_CLIENT_FEE) / 100;
+        return number_format(($convertedAmount * OperationType::WITHDRAW_PRIVATE_CLIENT_FEE) / 100, 2);
     }
 
 
@@ -76,7 +76,7 @@ class CalculationService implements CalculationInterface
      */
     private function calculateDepositCommission($amount)
     {
-        return ($amount * OperationType::DEPOSIT_FEE) / 100;
+        return number_format(($amount * OperationType::DEPOSIT_FEE) / 100, 2);
     }
 
     /**
@@ -89,9 +89,9 @@ class CalculationService implements CalculationInterface
     {
         if ($userType === UserType::PRIVATE_CLIENT) {
 
-            return ($amount * OperationType::WITHDRAW_PRIVATE_CLIENT_FEE) / 100;
+            return number_format(($amount * OperationType::WITHDRAW_PRIVATE_CLIENT_FEE) / 100, 2);
         }
 
-        return ($amount * OperationType::WITHDRAW_BUSINESS_CLIENT_FEE) / 100;
+        return number_format(($amount * OperationType::WITHDRAW_BUSINESS_CLIENT_FEE) / 100,2);
     }
 }

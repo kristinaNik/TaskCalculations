@@ -14,14 +14,14 @@ class Transaction
     private $operationCurrency;
 
     /**
-     * DataDto constructor.
+     * Transaction constructor.
      *
-     * @param $date
-     * @param $userId
-     * @param $userType
-     * @param $operationType
-     * @param $operationAmount
-     * @param $operationCurrency
+     * @param string $date
+     * @param int $userId
+     * @param string $userType
+     * @param string $operationType
+     * @param float $operationAmount
+     * @param string $operationCurrency
      */
     public function __construct(string $date, int $userId, string $userType, string $operationType, float $operationAmount, string $operationCurrency)
     {
