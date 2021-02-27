@@ -8,15 +8,24 @@ use App\Interfaces\ApiInterface;
 class ConverterService
 {
 
+    /**
+     * @var
+     */
     private $convertedAmount;
 
+    /**
+     * @var ApiInterface
+     */
     private $api;
 
+    /**
+     * ConverterService constructor.
+     * @param ApiInterface $api
+     */
     public function __construct(ApiInterface $api)
     {
         $this->api = $api;
     }
-
 
     /**
      * @param $amount

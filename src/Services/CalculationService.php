@@ -1,20 +1,23 @@
 <?php
-
-
 namespace App\Services;
-use Carbon\Carbon;
+
+use App\EnumTypes\OperationType;
+use App\EnumTypes\UserType;
+use App\Interfaces\CalculationInterface;
 use App\Model\Transaction;
 
-
-class CalculationService
+class CalculationService implements CalculationInterface
 {
-    const WITHDRAW = 'withdraw';
-    const DEPOSIT = 'deposit';
-    const PRIVATE_CLIENT = 'private';
-    const BUSINESS_CLIENT = 'business';
     const EUR = 'EUR';
 
+    /**
+     * @var array
+     */
     private $commissionFee = [];
+
+    /**
+     * @var ConverterService
+     */
     private $converter;
 
 
@@ -37,28 +40,58 @@ class CalculationService
         /** @var Transaction $data */
         foreach ($transactionData as $data) {
 
-            if ($data->getOperationType() === self::DEPOSIT) {
-                $this->commissionFee[] = ($data->getOperationAmount() * 0.03) / 100;
+            switch ($data->getOperationType())
+            {
+                case OperationType::DEPOSIT:
+                    $this->commissionFee[] = $this->calculateDepositCommission($data->getOperationAmount());
+                    break;
+                case OperationType::WITHDRAW && $data->getOperationCurrency() === self::EUR:
+                    $this->commissionFee[] = $this->calculateWithdrawCommission($data->getUserType(),$data->getOperationAmount());
+                    break;
+                default:
+                    $this->commissionFee[] = $this->convertAmount($data);
             }
-
-            if ($data->getOperationType() === self::WITHDRAW && $data->getUserType() === self::PRIVATE_CLIENT) {
-                if ($data->getOperationCurrency() != self::EUR) {
-                    $amount = ($this->converter->convert($data->getOperationAmount(), $data->getOperationCurrency()) * 0.3) / 100;
-                } else {
-                    $amount = ($data->getOperationAmount() * 0.3) / 100;
-                }
-
-                $this->commissionFee[] = $amount;
-            }
-
-            if ($data->getOperationType() === self::WITHDRAW && $data->getUserType() === self::BUSINESS_CLIENT) {
-                $this->commissionFee[] = ($data->getOperationAmount() * 0.5) /100;
-            }
-
         }
 
        return $this->commissionFee;
     }
 
+    /**
+     * @param Transaction $data
+     *
+     * @return float|int
+     */
+    private function convertAmount(Transaction $data)
+    {
+        $convertedAmount = $this->converter->convert($data->getOperationAmount(), $data->getOperationCurrency());
 
+        return ($convertedAmount * OperationType::WITHDRAW_PRIVATE_CLIENT_FEE) / 100;
+    }
+
+
+    /**
+     * @param $amount
+     *
+     * @return float|int
+     */
+    private function calculateDepositCommission($amount)
+    {
+        return ($amount * OperationType::DEPOSIT_FEE) / 100;
+    }
+
+    /**
+     * @param $userType
+     * @param $amount
+     *
+     * @return float|int
+     */
+    private function calculateWithdrawCommission($userType, $amount)
+    {
+        if ($userType === UserType::PRIVATE_CLIENT) {
+
+            return ($amount * OperationType::WITHDRAW_PRIVATE_CLIENT_FEE) / 100;
+        }
+
+        return ($amount * OperationType::WITHDRAW_BUSINESS_CLIENT_FEE) / 100;
+    }
 }

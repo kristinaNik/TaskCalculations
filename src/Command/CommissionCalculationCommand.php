@@ -2,6 +2,8 @@
 
 namespace App\Command;
 
+use App\Handlers\CommissionHandler;
+use App\Interfaces\CalculationInterface;
 use App\Interfaces\DataInterface;
 use App\Interfaces\FileInterface;
 use App\Services\CalculationService;
@@ -11,6 +13,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Contracts\Cache\CallbackInterface;
 
 class CommissionCalculationCommand extends Command
 {
@@ -22,13 +25,15 @@ class CommissionCalculationCommand extends Command
      */
     private $fileHandler;
 
-
     /**
      * @var DataInterface
      */
     private $dataHandler;
 
-    private $service;
+    /**
+     * @var CalculationInterface
+     */
+    private $calculationService;
 
 
     /**
@@ -36,12 +41,12 @@ class CommissionCalculationCommand extends Command
      * @param FileInterface $fileHandler
      * @param DataInterface $dataHandler
      */
-    public function __construct(FileInterface $fileHandler, DataInterface $dataHandler, CalculationService $service)
+    public function __construct(FileInterface $fileHandler, DataInterface $dataHandler, CalculationInterface $calculationService)
     {
         parent::__construct();
         $this->fileHandler = $fileHandler;
         $this->dataHandler = $dataHandler;
-        $this->service = $service;
+        $this->calculationService = $calculationService;
     }
 
 
@@ -53,21 +58,27 @@ class CommissionCalculationCommand extends Command
         ;
     }
 
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
         $file = $this->fileHandler->handleCsvData($input->getArgument('file_path'));
         $data =  $this->dataHandler->setDataCollection($file);
-        $calculateCommissions = $this->service->calculate($data);
+        $calculateCommissions = $this->calculationService->calculate($data);
 
         $io->success($this->displayCalculatedResult($calculateCommissions));
 
         return Command::SUCCESS;
     }
 
+
     /**
-     * @todo display calculations
-     * @return string
+     * @param $calculateCommissions
+     * @return array
      */
     private function displayCalculatedResult($calculateCommissions)
     {
