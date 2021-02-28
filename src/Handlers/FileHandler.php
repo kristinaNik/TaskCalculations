@@ -10,6 +10,7 @@ class FileHandler implements FileInterface
 {
     /**
      * @param string $file
+     *
      * @return array
      * @throws \Exception
      */
@@ -32,6 +33,7 @@ class FileHandler implements FileInterface
 
     /**
      * @param string $file
+     *
      * @return bool
      * @throws \Exception
      */

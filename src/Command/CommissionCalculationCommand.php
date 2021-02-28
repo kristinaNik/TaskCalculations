@@ -2,18 +2,14 @@
 
 namespace App\Command;
 
-use App\Handlers\CommissionHandler;
 use App\Interfaces\CalculationInterface;
 use App\Interfaces\DataInterface;
 use App\Interfaces\FileInterface;
-use App\Services\CalculationService;
-use App\Services\ConverterService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Contracts\Cache\CallbackInterface;
 
 class CommissionCalculationCommand extends Command
 {
@@ -35,11 +31,12 @@ class CommissionCalculationCommand extends Command
      */
     private $calculationService;
 
-
     /**
      * CommissionCalculationCommand constructor.
+     *
      * @param FileInterface $fileHandler
      * @param DataInterface $dataHandler
+     * @param CalculationInterface $calculationService
      */
     public function __construct(FileInterface $fileHandler, DataInterface $dataHandler, CalculationInterface $calculationService)
     {
@@ -67,8 +64,8 @@ class CommissionCalculationCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $file = $this->fileHandler->handleCsvData($input->getArgument('file_path'));
-        $data =  $this->dataHandler->setDataCollection($file);
-        $calculateCommissions = $this->calculationService->calculate($data);
+        $transactions =  $this->dataHandler->getTransactions($file);
+        $calculateCommissions = $this->calculationService->calculate($transactions);
 
         $io->success($this->displayCalculatedResult($calculateCommissions));
 

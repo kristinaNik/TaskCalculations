@@ -28,8 +28,11 @@ class ConverterService
     }
 
     /**
+     * Convert the amount be taking the exchange rates data from the api
+     *
      * @param $amount
      * @param $currency
+     *
      * @return float|int
      */
     public function convert($amount, $currency)

@@ -31,15 +31,15 @@ class CalculationService implements CalculationInterface
     }
 
     /**
+     * Calculate each transaction depending on the operationType
+     *
      * @param array $transactionData
      * @return array
      */
     public function calculate(array $transactionData): array
     {
-
         /** @var Transaction $data */
         foreach ($transactionData as $data) {
-
             switch ($data->getOperationType())
             {
                 case OperationType::DEPOSIT:

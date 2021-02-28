@@ -3,53 +3,56 @@
 
 namespace App\Handlers;
 
+use App\Factories\TransactionFactory;
 use App\Interfaces\DataInterface;
-use App\Model\Transaction;
 
 class DataHandler implements DataInterface
 {
     /**
      * @var array
      */
-    private $data = [];
+    private $transactions = [];
 
     /**
-     * @param $fileData
+     * Make a collection of array of objects
+     * Collect all transactions
+     *
+     * @param array $fileData
      *
      * @return array
      */
-    public function setDataCollection($fileData): array
+    public function getTransactions(array $fileData): array
     {
         foreach($fileData as $value) {
             $preparedData = $this->prepareData($value);
-            $this->data[] = new Transaction(
+            $this->transactions[] = TransactionFactory::createTransaction(
                 $preparedData['date'],
-                (int)$preparedData['userId'],
+                $preparedData['userId'],
                 $preparedData['userType'],
                 $preparedData['operationType'],
-                (float)$preparedData['operationAmount'],
+                $preparedData['operationAmount'],
                 $preparedData['operationCurrency']
             );
         }
 
-        return $this->data;
+        return $this->transactions;
     }
 
 
     /**
-     * @param $fileData
+     * @param array $fileData
      * @return array
      */
-    private function prepareData($fileData): array
+    private function prepareData(array $fileData): array
     {
         list($date, $userId, $userType, $operationType, $operationAmount, $operationCurrency) = $fileData;
 
         return [
             'date' => $date,
-            'userId' => $userId,
+            'userId' => (int)$userId,
             'userType' => $userType,
             'operationType' => $operationType,
-            'operationAmount' => $operationAmount,
+            'operationAmount' => (float) $operationAmount,
             'operationCurrency'=> $operationCurrency,
         ];
     }
