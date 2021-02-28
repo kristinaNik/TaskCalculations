@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Handlers\TransactionBuilder;
 use App\Interfaces\CalculationInterface;
 use App\Interfaces\FilterTransactionInterface;
 use App\Interfaces\TransactionInterface;
@@ -23,14 +24,9 @@ class CommissionCalculationCommand extends Command
     private $fileHandler;
 
     /**
-     * @var TransactionInterface
+     * @var TransactionBuilder
      */
-    private $transactionHandler;
-
-    /**
-     * @var FilterTransactionInterface
-     */
-    private $filterTransactionHandler;
+    private $transactionBuilder;
 
     /**
      * @var CalculationInterface
@@ -40,23 +36,20 @@ class CommissionCalculationCommand extends Command
 
     /**
      * CommissionCalculationCommand constructor.
-     *
      * @param FileInterface $fileHandler
-     * @param TransactionInterface $transactionHandler
-     * @param FilterTransactionInterface $filterTransactionHandler
      * @param CalculationInterface $calculationService
+     * @param TransactionBuilder $transactionBuilder
      */
     public function __construct(
         FileInterface $fileHandler,
-        TransactionInterface $transactionHandler,
-        FilterTransactionInterface $filterTransactionHandler,
-        CalculationInterface $calculationService)
+        CalculationInterface $calculationService,
+        TransactionBuilder $transactionBuilder
+    )
     {
         parent::__construct();
         $this->fileHandler = $fileHandler;
-        $this->transactionHandler = $transactionHandler;
-        $this->filterTransactionHandler = $filterTransactionHandler;
         $this->calculationService = $calculationService;
+        $this->transactionBuilder = $transactionBuilder;
     }
 
 
@@ -78,8 +71,8 @@ class CommissionCalculationCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         $file = $this->fileHandler->handleCsvData($input->getArgument('file_path'));
-        $transactions =  $this->transactionHandler->getTransactions($file);
-        $filterTransactionById = $this->filterTransactionHandler->filterTransactionById($file);
+        $transactions = $this->transactionBuilder->getTransactions($file);
+        $filterTransactionById = $this->transactionBuilder->getFilterTransactions($file);
         $calculateCommissions = $this->calculationService->calculate($transactions, $filterTransactionById);
 
         $io->success($this->displayCalculatedResult($calculateCommissions));
