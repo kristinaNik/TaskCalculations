@@ -1,7 +1,7 @@
 <?php
 namespace App\Interfaces;
 
-interface DataInterface
+interface TransactionInterface
 {
     public function getTransactions(array $fileData): array;
 }

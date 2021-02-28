@@ -20,9 +20,9 @@ class CalculationService implements CalculationInterface
      */
     private $converter;
 
-
     /**
      * CalculationService constructor.
+     *
      * @param ConverterService $converter
      */
     public function __construct(ConverterService $converter)
@@ -34,23 +34,26 @@ class CalculationService implements CalculationInterface
      * Calculate each transaction depending on the operationType
      *
      * @param array $transactionData
+     * @param $filterById
+     *
      * @return array
      */
-    public function calculate(array $transactionData): array
+    public function calculate(array $transactionData, $filterById): array
     {
         /** @var Transaction $data */
         foreach ($transactionData as $data) {
             switch ($data->getOperationType())
             {
                 case OperationType::DEPOSIT:
-                    $this->commissionFee[] = $this->calculateDepositCommission($data->getOperationAmount());
+                    $this->commissionFee[] = $this->calculateDepositCommission($data);
                     break;
                 case OperationType::WITHDRAW && $data->getOperationCurrency() === self::EUR:
-                    $this->commissionFee[] = $this->calculateWithdrawCommission($data->getUserType(),$data->getOperationAmount());
+                    $this->commissionFee[] = $this->calculateWithdrawCommission($data, $filterById);
                     break;
                 default:
                     $this->commissionFee[] = $this->convertAmount($data);
             }
+
         }
 
        return $this->commissionFee;
@@ -68,30 +71,31 @@ class CalculationService implements CalculationInterface
         return number_format(($convertedAmount * OperationType::WITHDRAW_PRIVATE_CLIENT_FEE) / 100, 2);
     }
 
-
     /**
-     * @param $amount
+     * @param Transaction $data
      *
-     * @return float|int
+     * @return string
      */
-    private function calculateDepositCommission($amount)
+    private function calculateDepositCommission(Transaction $data): string
     {
-        return number_format(($amount * OperationType::DEPOSIT_FEE) / 100, 2);
+        return number_format(($data->getOperationAmount() * OperationType::DEPOSIT_FEE) / 100, 2);
     }
 
     /**
-     * @param $userType
-     * @param $amount
-     *
-     * @return float|int
+     * @param Transaction $data
+     * @param $filterById
+     * @return int|string
      */
-    private function calculateWithdrawCommission($userType, $amount)
+    private function calculateWithdrawCommission(Transaction $data, $filterById)
     {
-        if ($userType === UserType::PRIVATE_CLIENT) {
-
-            return number_format(($amount * OperationType::WITHDRAW_PRIVATE_CLIENT_FEE) / 100, 2);
+        if ($data->getUserType() === UserType::PRIVATE_CLIENT) {
+            //Check the date corresponding to the userId
+            if (in_array($data->getDate(), $filterById)) {
+                return 0;
+            }
+            return number_format(($data->getOperationAmount() * OperationType::WITHDRAW_PRIVATE_CLIENT_FEE) / 100, 2);
         }
 
-        return number_format(($amount * OperationType::WITHDRAW_BUSINESS_CLIENT_FEE) / 100,2);
+        return number_format(($data->getOperationAmount() * OperationType::WITHDRAW_BUSINESS_CLIENT_FEE) / 100,2);
     }
 }

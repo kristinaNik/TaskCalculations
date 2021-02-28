@@ -3,7 +3,8 @@
 namespace App\Command;
 
 use App\Interfaces\CalculationInterface;
-use App\Interfaces\DataInterface;
+use App\Interfaces\FilterTransactionInterface;
+use App\Interfaces\TransactionInterface;
 use App\Interfaces\FileInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -22,27 +23,39 @@ class CommissionCalculationCommand extends Command
     private $fileHandler;
 
     /**
-     * @var DataInterface
+     * @var TransactionInterface
      */
-    private $dataHandler;
+    private $transactionHandler;
+
+    /**
+     * @var FilterTransactionInterface
+     */
+    private $filterTransactionHandler;
 
     /**
      * @var CalculationInterface
      */
     private $calculationService;
 
+
     /**
      * CommissionCalculationCommand constructor.
      *
      * @param FileInterface $fileHandler
-     * @param DataInterface $dataHandler
+     * @param TransactionInterface $transactionHandler
+     * @param FilterTransactionInterface $filterTransactionHandler
      * @param CalculationInterface $calculationService
      */
-    public function __construct(FileInterface $fileHandler, DataInterface $dataHandler, CalculationInterface $calculationService)
+    public function __construct(
+        FileInterface $fileHandler,
+        TransactionInterface $transactionHandler,
+        FilterTransactionInterface $filterTransactionHandler,
+        CalculationInterface $calculationService)
     {
         parent::__construct();
         $this->fileHandler = $fileHandler;
-        $this->dataHandler = $dataHandler;
+        $this->transactionHandler = $transactionHandler;
+        $this->filterTransactionHandler = $filterTransactionHandler;
         $this->calculationService = $calculationService;
     }
 
@@ -63,9 +76,11 @@ class CommissionCalculationCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
+
         $file = $this->fileHandler->handleCsvData($input->getArgument('file_path'));
-        $transactions =  $this->dataHandler->getTransactions($file);
-        $calculateCommissions = $this->calculationService->calculate($transactions);
+        $transactions =  $this->transactionHandler->getTransactions($file);
+        $filterTransactionById = $this->filterTransactionHandler->filterTransactionById($file);
+        $calculateCommissions = $this->calculationService->calculate($transactions, $filterTransactionById);
 
         $io->success($this->displayCalculatedResult($calculateCommissions));
 
