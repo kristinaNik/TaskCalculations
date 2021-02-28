@@ -1,6 +1,4 @@
 <?php
-
-
 namespace App\Tests;
 
 use App\Handlers\ApiHandler;
@@ -8,11 +6,6 @@ use App\Handlers\FileHandler;
 use App\Handlers\FilterTransactionHandler;
 use App\Handlers\TransactionBuilder;
 use App\Handlers\TransactionHandler;
-use App\Interfaces\CalculationInterface;
-use App\Interfaces\FileInterface;
-use App\Interfaces\FilterTransactionInterface;
-use App\Interfaces\TransactionInterface;
-use App\Model\Transaction;
 use App\Services\CalculationService;
 use App\Services\ConverterService;
 use PHPUnit\Framework\TestCase;
@@ -20,10 +13,19 @@ use PHPUnit\Framework\TestCase;
 class CommissionsTest extends TestCase
 {
 
+    /**
+     * @var FileHandler
+     */
     private $file;
 
+    /**
+     * @var array
+     */
     private $csvData;
 
+    /**
+     * @var TransactionBuilder
+     */
     private $transactionBuilder;
 
     public function __construct(?string $name = null, array $data = [], $dataName = '')
@@ -60,19 +62,19 @@ class CommissionsTest extends TestCase
 
         $this->assertIsArray($commissions);
         $this->assertSame([
-               "3.60",
-               "3.00",
-               0,
-               "0.06",
-               "1.50",
-               "0.70",
-               "3.00",
-               "0.25",
-               0,
-               "3.00",
-               0,
-               0,
-               "69.86"
+                "3.60",
+                "3.00",
+                "0.00",
+                "0.06",
+                "1.50",
+                "0.70",
+                "3.00",
+                "0.25",
+                "0.00",
+                "3.00",
+                "0.00",
+                "0.00",
+                "69.86"
         ], $commissions);
     }
 

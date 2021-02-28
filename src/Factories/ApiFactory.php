@@ -1,8 +1,5 @@
 <?php
-
-
 namespace App\Factories;
-
 
 use App\Services\ApiConnectionService;
 use Symfony\Component\HttpClient\HttpClient;

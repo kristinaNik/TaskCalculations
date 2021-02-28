@@ -1,8 +1,5 @@
 <?php
-
-
 namespace App\Interfaces;
-
 
 interface FilterTransactionInterface
 {

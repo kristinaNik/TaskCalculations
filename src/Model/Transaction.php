@@ -1,16 +1,36 @@
 <?php
-
-
 namespace App\Model;
-
 
 class Transaction
 {
+    /**
+     * @var string
+     */
     private $date;
+
+    /**
+     * @var int
+     */
     private $userId;
+
+    /**
+     * @var string
+     */
     private $userType;
+
+    /**
+     * @var string
+     */
     private $operationType;
+
+    /**
+     * @var float
+     */
     private $operationAmount;
+
+    /**
+     * @var string
+     */
     private $operationCurrency;
 
     /**
@@ -68,7 +88,7 @@ class Transaction
     /**
      * @return mixed
      */
-    public function getOperationAmount(): string
+    public function getOperationAmount(): float
     {
         return $this->operationAmount;
     }

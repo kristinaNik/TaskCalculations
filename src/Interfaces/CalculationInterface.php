@@ -1,9 +1,7 @@
 <?php
-
-
 namespace App\Interfaces;
 
 interface CalculationInterface
 {
-    public function calculate(array $transactionData, $filterById): array;
+    public function calculate(array $transactionData, array $filterById): array;
 }

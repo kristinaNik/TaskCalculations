@@ -1,8 +1,5 @@
 <?php
-
-
 namespace App\Handlers;
-
 
 use App\Interfaces\FilterTransactionInterface;
 use App\Interfaces\TransactionInterface;
@@ -42,6 +39,10 @@ class TransactionBuilder
         return $this->transactionHandler->getTransactions($fileData);
     }
 
+    /**
+     * @param $fileData
+     * @return array
+     */
     public function getFilterTransactions($fileData): array
     {
         return $this->filterTransactionHandler->filterTransactionById($fileData);

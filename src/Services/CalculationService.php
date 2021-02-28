@@ -34,11 +34,11 @@ class CalculationService implements CalculationInterface
      * Calculate each transaction depending on the operationType
      *
      * @param array $transactionData
-     * @param $filterById
+     * @param array $filterById
      *
      * @return array
      */
-    public function calculate(array $transactionData, $filterById): array
+    public function calculate(array $transactionData, array $filterById): array
     {
         /** @var Transaction $data */
         foreach ($transactionData as $data) {
@@ -62,9 +62,9 @@ class CalculationService implements CalculationInterface
     /**
      * @param Transaction $data
      *
-     * @return float|int
+     * @return string
      */
-    private function convertAmount(Transaction $data)
+    private function convertAmount(Transaction $data): string
     {
         $convertedAmount = $this->converter->convert($data->getOperationAmount(), $data->getOperationCurrency());
 
@@ -84,14 +84,15 @@ class CalculationService implements CalculationInterface
     /**
      * @param Transaction $data
      * @param $filterById
-     * @return int|string
+     *
+     * @return string
      */
-    private function calculateWithdrawCommission(Transaction $data, $filterById)
+    private function calculateWithdrawCommission(Transaction $data, $filterById): string
     {
         if ($data->getUserType() === UserType::PRIVATE_CLIENT) {
             //Check the date corresponding to the userId
             if (in_array($data->getDate(), $filterById)) {
-                return 0;
+                return number_format(0, 2);
             }
             return number_format(($data->getOperationAmount() * OperationType::WITHDRAW_PRIVATE_CLIENT_FEE) / 100, 2);
         }

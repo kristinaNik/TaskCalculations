@@ -1,8 +1,5 @@
 <?php
-
-
 namespace App\Handlers;
-
 
 use App\Factories\ApiFactory;
 use App\Interfaces\ApiInterface;

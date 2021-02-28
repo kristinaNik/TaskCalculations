@@ -1,11 +1,8 @@
 <?php
-
 namespace App\Command;
 
 use App\Handlers\TransactionBuilder;
 use App\Interfaces\CalculationInterface;
-use App\Interfaces\FilterTransactionInterface;
-use App\Interfaces\TransactionInterface;
 use App\Interfaces\FileInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;

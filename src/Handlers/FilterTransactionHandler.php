@@ -5,6 +5,9 @@ use App\Interfaces\FilterTransactionInterface;
 
 class FilterTransactionHandler extends DataHandler implements FilterTransactionInterface
 {
+    /**
+     * @var array
+     */
     private $transactionById = [];
 
     /**

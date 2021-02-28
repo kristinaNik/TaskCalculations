@@ -1,8 +1,5 @@
 <?php
-
-
 namespace App\Handlers;
-
 
 class DataHandler
 {

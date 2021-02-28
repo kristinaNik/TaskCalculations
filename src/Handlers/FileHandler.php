@@ -1,8 +1,5 @@
 <?php
-
-
 namespace App\Handlers;
-
 
 use App\Interfaces\FileInterface;
 
