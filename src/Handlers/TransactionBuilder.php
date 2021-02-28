@@ -4,13 +4,30 @@
 namespace App\Handlers;
 
 
+use App\Interfaces\FilterTransactionInterface;
+use App\Interfaces\TransactionInterface;
+
 class TransactionBuilder
 {
+
+    /**
+     * @var TransactionInterface
+     */
     private $transactionHandler;
 
+
+    /**
+     * @var FilterTransactionInterface
+     */
     private $filterTransactionHandler;
 
-    public function __construct(TransactionHandler $transactionHandler, FilterTransactionHandler $filterTransactionHandler)
+    /**
+     * TransactionBuilder constructor.
+     *
+     * @param TransactionInterface $transactionHandler
+     * @param FilterTransactionInterface $filterTransactionHandler
+     */
+    public function __construct(TransactionInterface $transactionHandler, FilterTransactionInterface $filterTransactionHandler)
     {
         $this->transactionHandler = $transactionHandler;
         $this->filterTransactionHandler = $filterTransactionHandler;
@@ -20,12 +37,12 @@ class TransactionBuilder
      * @param $fileData
      * @return array
      */
-    public function getTransactions($fileData)
+    public function getTransactions($fileData): array
     {
         return $this->transactionHandler->getTransactions($fileData);
     }
 
-    public function getFilterTransactions($fileData)
+    public function getFilterTransactions($fileData): array
     {
         return $this->filterTransactionHandler->filterTransactionById($fileData);
     }
