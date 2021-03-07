@@ -2,8 +2,9 @@
 namespace App\Services;
 
 use App\Interfaces\ApiInterface;
+use App\Interfaces\ConvertInterface;
 
-class ConverterService
+class ConverterService implements ConvertInterface
 {
 
     /**
@@ -30,10 +31,9 @@ class ConverterService
      *
      * @param $amount
      * @param $currency
-     *
-     * @return float|int
+     * @return float
      */
-    public function convert($amount, $currency)
+    public function convert($amount, $currency): float
     {
         $rates = $this->api->handleApiData()->rates;
 

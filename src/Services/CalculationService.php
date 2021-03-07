@@ -4,6 +4,7 @@ namespace App\Services;
 use App\EnumTypes\OperationType;
 use App\EnumTypes\UserType;
 use App\Interfaces\CalculationInterface;
+use App\Interfaces\ConvertInterface;
 use App\Model\Transaction;
 
 class CalculationService implements CalculationInterface
@@ -16,16 +17,16 @@ class CalculationService implements CalculationInterface
     private $commissionFee = [];
 
     /**
-     * @var ConverterService
+     * @var ConvertInterface
      */
     private $converter;
 
     /**
      * CalculationService constructor.
      *
-     * @param ConverterService $converter
+     * @param ConvertInterface $converter
      */
-    public function __construct(ConverterService $converter)
+    public function __construct(ConvertInterface $converter)
     {
         $this->converter = $converter;
     }
