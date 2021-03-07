@@ -2,9 +2,12 @@
 namespace App\Handlers;
 
 use App\Interfaces\FilterTransactionInterface;
+use App\Traits\PrepareDataTrait;
 
-class FilterTransactionHandler extends DataHandler implements FilterTransactionInterface
+class FilterTransactionHandler implements FilterTransactionInterface
 {
+    use PrepareDataTrait;
+
     /**
      * @var array
      */

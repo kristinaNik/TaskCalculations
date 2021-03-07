@@ -3,9 +3,12 @@ namespace App\Handlers;
 
 use App\Factories\TransactionFactory;
 use App\Interfaces\TransactionInterface;
+use App\Traits\PrepareDataTrait;
 
-class TransactionHandler extends DataHandler implements TransactionInterface
+class TransactionHandler  implements TransactionInterface
 {
+    use PrepareDataTrait;
+
     /**
      * @var array
      */

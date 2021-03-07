@@ -74,7 +74,7 @@ class CommissionsTest extends TestCase
                 "3.00",
                 "0.00",
                 "0.00",
-                "69.86"
+                "69.61"
         ], $commissions);
     }
 

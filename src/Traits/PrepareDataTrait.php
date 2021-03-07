@@ -1,7 +1,10 @@
 <?php
-namespace App\Handlers;
 
-class DataHandler
+
+namespace App\Traits;
+
+
+trait PrepareDataTrait
 {
     /**
      * @param array $fileData
