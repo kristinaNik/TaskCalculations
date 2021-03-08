@@ -18,17 +18,17 @@ class CommissionCalculationCommand extends Command
     /**
      * @var FileInterface
      */
-    private $fileHandler;
+    private FileInterface $fileHandler;
 
     /**
      * @var TransactionBuilder
      */
-    private $transactionBuilder;
+    private TransactionBuilder $transactionBuilder;
 
     /**
      * @var CalculationInterface
      */
-    private $calculationService;
+    private CalculationInterface $calculationService;
 
 
     /**
@@ -61,6 +61,7 @@ class CommissionCalculationCommand extends Command
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
+     *
      * @return int
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -80,9 +81,10 @@ class CommissionCalculationCommand extends Command
 
     /**
      * @param $calculateCommissions
+     *
      * @return array
      */
-    private function displayCalculatedResult($calculateCommissions)
+    private function displayCalculatedResult(array $calculateCommissions): array
     {
         return array_values($calculateCommissions);
     }

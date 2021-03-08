@@ -9,7 +9,7 @@ class ApiConnectionService
     /**
      * @var HttpClientInterface
      */
-    private $client;
+    private HttpClientInterface $client;
 
     public const API_URL = 'https://api.exchangeratesapi.io/latest';
 

@@ -16,17 +16,17 @@ class CommissionsTest extends TestCase
     /**
      * @var FileHandler
      */
-    private $file;
+    private FileHandler $file;
 
     /**
      * @var array
      */
-    private $csvData;
+    private array $csvData;
 
     /**
      * @var TransactionBuilder
      */
-    private $transactionBuilder;
+    private TransactionBuilder $transactionBuilder;
 
     public function __construct(?string $name = null, array $data = [], $dataName = '')
     {
@@ -74,7 +74,7 @@ class CommissionsTest extends TestCase
                 "3.00",
                 "0.00",
                 "0.00",
-                "69.61"
+                "69.82"
         ], $commissions);
     }
 

@@ -3,5 +3,5 @@ namespace App\Interfaces;
 
 interface ConvertInterface
 {
-    public function convert($amount, $currency): float;
+    public function convert(float $amount,  string $currency): float;
 }

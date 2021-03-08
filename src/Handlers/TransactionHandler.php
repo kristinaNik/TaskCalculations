@@ -12,7 +12,7 @@ class TransactionHandler  implements TransactionInterface
     /**
      * @var array
      */
-    private $transactions = [];
+    private array $transactions = [];
 
     /**
      * Make a collection of array of objects

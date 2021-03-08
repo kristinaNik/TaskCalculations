@@ -11,7 +11,7 @@ class FilterTransactionHandler implements FilterTransactionInterface
     /**
      * @var array
      */
-    private $transactionById = [];
+    private array $transactionById = [];
 
     /**
      * Filter the transactions by id

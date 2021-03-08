@@ -10,13 +10,13 @@ class TransactionBuilder
     /**
      * @var TransactionInterface
      */
-    private $transactionHandler;
+    private TransactionInterface $transactionHandler;
 
 
     /**
      * @var FilterTransactionInterface
      */
-    private $filterTransactionHandler;
+    private FilterTransactionInterface $filterTransactionHandler;
 
     /**
      * TransactionBuilder constructor.
@@ -32,9 +32,10 @@ class TransactionBuilder
 
     /**
      * @param $fileData
+     *
      * @return array
      */
-    public function getTransactions($fileData): array
+    public function getTransactions(array $fileData): array
     {
         return $this->transactionHandler->getTransactions($fileData);
     }
@@ -43,7 +44,7 @@ class TransactionBuilder
      * @param $fileData
      * @return array
      */
-    public function getFilterTransactions($fileData): array
+    public function getFilterTransactions(array $fileData): array
     {
         return $this->filterTransactionHandler->filterTransactionById($fileData);
     }

@@ -14,12 +14,12 @@ class CalculationService implements CalculationInterface
     /**
      * @var array
      */
-    private $commissionFee = [];
+    private array $commissionFee = [];
 
     /**
      * @var ConvertInterface
      */
-    private $converter;
+    private ConvertInterface $converter;
 
     /**
      * CalculationService constructor.
@@ -84,11 +84,11 @@ class CalculationService implements CalculationInterface
 
     /**
      * @param Transaction $data
-     * @param $filterById
+     * @param array $filterById
      *
      * @return string
      */
-    private function calculateWithdrawCommission(Transaction $data, $filterById): string
+    private function calculateWithdrawCommission(Transaction $data, array $filterById): string
     {
         if ($data->getUserType() === UserType::PRIVATE_CLIENT) {
             //Check the date corresponding to the userId

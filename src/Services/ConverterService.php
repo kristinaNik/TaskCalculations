@@ -6,16 +6,15 @@ use App\Interfaces\ConvertInterface;
 
 class ConverterService implements ConvertInterface
 {
-
     /**
-     * @var
+     * @var float
      */
-    private $convertedAmount;
+    private float $convertedAmount;
 
     /**
      * @var ApiInterface
      */
-    private $api;
+    private ApiInterface $api;
 
     /**
      * ConverterService constructor.
@@ -29,11 +28,12 @@ class ConverterService implements ConvertInterface
     /**
      * Convert the amount be taking the exchange rates data from the api
      *
-     * @param $amount
-     * @param $currency
+     * @param float $amount
+     * @param string $currency
+     *
      * @return float
      */
-    public function convert($amount, $currency): float
+    public function convert(float $amount, string $currency): float
     {
         $rates = $this->api->handleApiData()->rates;
 
