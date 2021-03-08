@@ -6,32 +6,32 @@ class Transaction
     /**
      * @var string
      */
-    private $date;
+    private string $date;
 
     /**
      * @var int
      */
-    private $userId;
+    private int $userId;
 
     /**
      * @var string
      */
-    private $userType;
+    private string $userType;
 
     /**
      * @var string
      */
-    private $operationType;
+    private string $operationType;
 
     /**
      * @var float
      */
-    private $operationAmount;
+    private float $operationAmount;
 
     /**
      * @var string
      */
-    private $operationCurrency;
+    private string $operationCurrency;
 
     /**
      * Transaction constructor.
