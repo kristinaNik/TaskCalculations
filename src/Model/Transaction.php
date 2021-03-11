@@ -26,9 +26,9 @@ class Transaction
     private string $operationType;
 
     /**
-     * @var string
+     * @var float
      */
-    private string $operationAmount;
+    private float $operationAmount;
 
     /**
      * @var string
@@ -42,10 +42,10 @@ class Transaction
      * @param int $userId
      * @param string $userType
      * @param string $operationType
-     * @param string $operationAmount
+     * @param float $operationAmount
      * @param string $operationCurrency
      */
-    public function __construct(string $date, int $userId, string $userType, string $operationType, string $operationAmount, string $operationCurrency)
+    public function __construct(string $date, int $userId, string $userType, string $operationType, float $operationAmount, string $operationCurrency)
     {
         $this->date = $date;
         $this->userId = $userId;
@@ -88,9 +88,9 @@ class Transaction
     }
 
     /**
-     * @return mixed
+     * @return float
      */
-    public function getOperationAmount(): string
+    public function getOperationAmount(): float
     {
         return $this->operationAmount;
     }

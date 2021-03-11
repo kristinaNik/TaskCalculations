@@ -7,8 +7,6 @@ use App\Interfaces\CalculationInterface;
 use App\Interfaces\ConvertInterface;
 use App\Model\Transaction;
 use Carbon\Carbon;
-use Evp\Component\Money\Money;
-use Money\Currency;
 
 class CalculationService implements CalculationInterface
 {
@@ -29,8 +27,7 @@ class CalculationService implements CalculationInterface
 
     /**
      * CalculationService constructor.
-     *
-     * @param Money $moneyService
+     * @param ConvertInterface $converter
      */
     public function __construct( ConvertInterface $converter)
     {
@@ -48,8 +45,6 @@ class CalculationService implements CalculationInterface
     {
         /** @var Transaction $data */
         foreach ($transactionData as $data) {
-       //     $amount = $this->checkTransaction($data);
-
             switch ($data->getOperationType())
             {
                 case OperationType::DEPOSIT:
@@ -85,30 +80,15 @@ class CalculationService implements CalculationInterface
      */
     private function calculateWithdrawCommission(Transaction $data): string
     {
-        if ($data->getUserType() === UserType::PRIVATE_CLIENT ) {
-             if ($this->checkFreeTransaction($data)) {
-                 return number_format(0, 2);
-             }
-            return number_format(($data->getOperationAmount() * OperationType::WITHDRAW_PRIVATE_CLIENT_FEE) / 100, 2);
+        if ($data->getUserType() === UserType::PRIVATE_CLIENT) {
+            if ($data->getOperationCurrency() != self::EUR) {
+                $amount = $this->converter->convert($data->getOperationAmount(), $data->getOperationCurrency());
+            } else {
+                $amount = $data->getOperationAmount();
+            }
+            return number_format(($amount * OperationType::WITHDRAW_PRIVATE_CLIENT_FEE) / 100, 2);
         }
 
         return number_format(($data->getOperationAmount() * OperationType::WITHDRAW_BUSINESS_CLIENT_FEE) / 100,2);
-    }
-
-
-    private function checkFreeTransaction(Transaction $transactionData)
-    {
-        $date = Carbon::parse($transactionData->getDate());
-        $totalAmount = 0;
-
-        if ($date->dayOfWeek != Carbon::MONDAY) {
-            $totalAmount += $transactionData->getOperationAmount();
-        }
-
-        if ($totalAmount <= self::LIMIT) {
-            return true;
-        }
-
-        return false;
     }
 }
