@@ -16,6 +16,7 @@ class CalculationService implements CalculationInterface
      */
     private array $commissionFee = [];
 
+
     /**
      * @var ConvertInterface
      */
@@ -48,7 +49,7 @@ class CalculationService implements CalculationInterface
                     $this->commissionFee[] = $this->calculateDepositCommission($data);
                     break;
                 case OperationType::WITHDRAW:
-                    $this->commissionFee[] = $this->calculateWithdrawCommission($data, $filterById);
+                    $this->commissionFee[] = $this->calculateWithdrawCommission($data);
                     break;
                default:
                   throw new \Exception("No such operation exists");
@@ -72,11 +73,10 @@ class CalculationService implements CalculationInterface
 
     /**
      * @param Transaction $data
-     * @param array $filterById
      *
      * @return string
      */
-    private function calculateWithdrawCommission(Transaction $data, array $filterById): string
+    private function calculateWithdrawCommission(Transaction $data): string
     {
         if ($data->getUserType() === UserType::PRIVATE_CLIENT ) {
             return number_format(($data->getOperationAmount() * OperationType::WITHDRAW_PRIVATE_CLIENT_FEE) / 100, 2);
