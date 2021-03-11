@@ -51,8 +51,8 @@ class CalculationService implements CalculationInterface
                 case OperationType::WITHDRAW && $data->getOperationCurrency() === self::EUR:
                     $this->commissionFee[] = $this->calculateWithdrawCommission($data, $filterById);
                     break;
-                default:
-                    $this->commissionFee[] = $this->convertAmount($data);
+               default:
+                    $this->commissionFee[] = $this->converter->convert($data->getOperationAmount(), $data->getOperationCurrency(),OperationType::WITHDRAW_PRIVATE_CLIENT_FEE );
             }
 
         }
@@ -60,17 +60,6 @@ class CalculationService implements CalculationInterface
        return $this->commissionFee;
     }
 
-    /**
-     * @param Transaction $data
-     *
-     * @return string
-     */
-    private function convertAmount(Transaction $data): string
-    {
-        $convertedAmount = $this->converter->convert($data->getOperationAmount(), $data->getOperationCurrency());
-
-        return number_format(($convertedAmount * OperationType::WITHDRAW_PRIVATE_CLIENT_FEE) / 100, 2);
-    }
 
     /**
      * @param Transaction $data
