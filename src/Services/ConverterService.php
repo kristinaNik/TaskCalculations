@@ -14,15 +14,15 @@ class ConverterService implements ConvertInterface
     /**
      * @var ApiInterface
      */
-    private ApiInterface $api;
+    private $rates;
 
     /**
      * ConverterService constructor.
-     * @param ApiInterface $api
+     * @param RatesService $rates
      */
-    public function __construct(ApiInterface $api)
+    public function __construct(RatesService $rates)
     {
-        $this->api = $api;
+        $this->rates = $rates;
     }
 
     /**
@@ -35,7 +35,7 @@ class ConverterService implements ConvertInterface
      */
     public function convert(float $amount, string $currency): float
     {
-        $rates = $this->api->handleApiData()->rates;
+        $rates = $this->rates->getRates();
 
         foreach ($rates as $rate => $value) {
             if ($rate === $currency) {

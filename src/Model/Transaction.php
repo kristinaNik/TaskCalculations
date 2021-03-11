@@ -1,6 +1,8 @@
 <?php
 namespace App\Model;
 
+use Evp\Component\Money\Money;
+
 class Transaction
 {
     /**
@@ -24,9 +26,9 @@ class Transaction
     private string $operationType;
 
     /**
-     * @var float
+     * @var string
      */
-    private float $operationAmount;
+    private string $operationAmount;
 
     /**
      * @var string
@@ -40,10 +42,10 @@ class Transaction
      * @param int $userId
      * @param string $userType
      * @param string $operationType
-     * @param float $operationAmount
+     * @param string $operationAmount
      * @param string $operationCurrency
      */
-    public function __construct(string $date, int $userId, string $userType, string $operationType, float $operationAmount, string $operationCurrency)
+    public function __construct(string $date, int $userId, string $userType, string $operationType, string $operationAmount, string $operationCurrency)
     {
         $this->date = $date;
         $this->userId = $userId;
@@ -88,7 +90,7 @@ class Transaction
     /**
      * @return mixed
      */
-    public function getOperationAmount(): float
+    public function getOperationAmount(): string
     {
         return $this->operationAmount;
     }

@@ -2,6 +2,7 @@
 namespace App\Factories;
 
 use App\Model\Transaction;
+use Evp\Component\Money\Money;
 
 class TransactionFactory
 {
@@ -15,7 +16,7 @@ class TransactionFactory
      *
      * @return Transaction
      */
-    public static function createTransaction(string $date, int $userId, string $userType, string $operationType, float $operationAmount, string $operationCurrency): Transaction
+    public static function createTransaction(string $date, int $userId, string $userType, string $operationType, string $operationAmount, string $operationCurrency): Transaction
     {
         return new Transaction($date, $userId, $userType, $operationType, $operationAmount, $operationCurrency);
 

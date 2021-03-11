@@ -5,6 +5,15 @@
     "doctrine/instantiator": {
         "version": "1.4.0"
     },
+    "evp/money": {
+        "version": "2.5.0"
+    },
+    "maba/math": {
+        "version": "v1.0.1"
+    },
+    "maba/monetary": {
+        "version": "0.10.0"
+    },
     "myclabs/deep-copy": {
         "version": "1.10.2"
     },

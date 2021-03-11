@@ -3,6 +3,7 @@ namespace App\Handlers;
 
 use App\Interfaces\FilterTransactionInterface;
 use App\Traits\PrepareDataTrait;
+use Carbon\Carbon;
 
 class FilterTransactionHandler implements FilterTransactionInterface
 {
@@ -12,6 +13,9 @@ class FilterTransactionHandler implements FilterTransactionInterface
      * @var array
      */
     private array $transactionById = [];
+
+
+
 
     /**
      * Filter the transactions by id

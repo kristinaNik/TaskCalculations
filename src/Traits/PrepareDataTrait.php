@@ -1,6 +1,8 @@
 <?php
 namespace App\Traits;
 
+use Evp\Component\Money\Money;
+
 trait PrepareDataTrait
 {
     /**
@@ -10,13 +12,12 @@ trait PrepareDataTrait
     public function prepareData(array $fileData): array
     {
         list($date, $userId, $userType, $operationType, $operationAmount, $operationCurrency) = $fileData;
-
         return [
             'date' => $date,
             'userId' => (int)$userId,
             'userType' => $userType,
             'operationType' => $operationType,
-            'operationAmount' => (float) $operationAmount,
+            'operationAmount' =>  $operationAmount,
             'operationCurrency'=> $operationCurrency,
         ];
     }

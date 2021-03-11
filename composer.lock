@@ -4,8 +4,143 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "31ab040de66aa5eab6fbd1e22a57007e",
+    "content-hash": "6f59cb3ce85862f72ae8d88e6874fb8f",
     "packages": [
+        {
+            "name": "evp/money",
+            "version": "2.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/paysera/lib-money.git",
+                "reference": "65c589d64022fb463f123a8331d285a1192b1901"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/paysera/lib-money/zipball/65c589d64022fb463f123a8331d285a1192b1901",
+                "reference": "65c589d64022fb463f123a8331d285a1192b1901",
+                "shasum": ""
+            },
+            "require": {
+                "maba/monetary": "~0.10"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.8"
+            },
+            "suggest": {
+                "paysera/lib-serializer": "Allows to Serialize/Deserialize Money objects"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Evp\\Component\\Money": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Money library",
+            "time": "2021-03-04T12:33:39+00:00"
+        },
+        {
+            "name": "maba/math",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mariusbalcytis/math.git",
+                "reference": "f2f239d035f8666332c15d040e3de6ad3e6c3db6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mariusbalcytis/math/zipball/f2f239d035f8666332c15d040e3de6ad3e6c3db6",
+                "reference": "f2f239d035f8666332c15d040e3de6ad3e6c3db6",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "ext-bcmath": "*",
+                "phpunit/phpunit": "~4.0"
+            },
+            "suggest": {
+                "ext-bcmath": "*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Maba\\Component\\Math\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marius Balčytis",
+                    "email": "marius.balcytis@gmail.com"
+                }
+            ],
+            "description": "PHP library for arbitrary precision mathematics",
+            "keywords": [
+                "bcmath",
+                "math",
+                "mathematics"
+            ],
+            "time": "2014-09-20T19:37:26+00:00"
+        },
+        {
+            "name": "maba/monetary",
+            "version": "0.10.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mariusbalcytis/monetary.git",
+                "reference": "953aa05af014152c96a83d674313e1a4df3fbbf1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mariusbalcytis/monetary/zipball/953aa05af014152c96a83d674313e1a4df3fbbf1",
+                "reference": "953aa05af014152c96a83d674313e1a4df3fbbf1",
+                "shasum": ""
+            },
+            "require": {
+                "maba/math": "^1.0.0",
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0",
+                "satooshi/php-coveralls": "^0.6.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Maba\\Component\\Monetary\\": "src",
+                    "Maba\\Component\\Monetary\\Tests\\": "test"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marius Balčytis",
+                    "email": "marius.balcytis@gmail.com"
+                }
+            ],
+            "description": "PHP library for money operations",
+            "keywords": [
+                "currency",
+                "monetary",
+                "money",
+                "money calculations",
+                "money operations"
+            ],
+            "time": "2020-03-21T10:23:45+00:00"
+        },
         {
             "name": "nesbot/carbon",
             "version": "2.45.1",
