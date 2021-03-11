@@ -31,13 +31,12 @@ class CalculationService implements CalculationInterface
         $this->converter = $converter;
     }
 
+
     /**
-     * Calculate each transaction depending on the operationType
-     *
      * @param array $transactionData
      * @param array $filterById
-     *
      * @return array
+     * @throws \Exception
      */
     public function calculate(array $transactionData, array $filterById): array
     {
@@ -48,11 +47,11 @@ class CalculationService implements CalculationInterface
                 case OperationType::DEPOSIT:
                     $this->commissionFee[] = $this->calculateDepositCommission($data);
                     break;
-                case OperationType::WITHDRAW && $data->getOperationCurrency() === self::EUR:
+                case OperationType::WITHDRAW:
                     $this->commissionFee[] = $this->calculateWithdrawCommission($data, $filterById);
                     break;
                default:
-                    $this->commissionFee[] = $this->converter->convert($data->getOperationAmount(), $data->getOperationCurrency(),OperationType::WITHDRAW_PRIVATE_CLIENT_FEE );
+                  throw new \Exception("No such operation exists");
             }
 
         }
@@ -79,11 +78,7 @@ class CalculationService implements CalculationInterface
      */
     private function calculateWithdrawCommission(Transaction $data, array $filterById): string
     {
-        if ($data->getUserType() === UserType::PRIVATE_CLIENT) {
-            //Check the date corresponding to the userId
-            if (in_array($data->getDate(), $filterById)) {
-                return number_format(0, 2);
-            }
+        if ($data->getUserType() === UserType::PRIVATE_CLIENT ) {
             return number_format(($data->getOperationAmount() * OperationType::WITHDRAW_PRIVATE_CLIENT_FEE) / 100, 2);
         }
 

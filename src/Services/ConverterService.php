@@ -33,13 +33,13 @@ class ConverterService implements ConvertInterface
      *
      * @return float
      */
-    public function convert(float $amount, string $currency, $commissionValue): float
+    public function convert(float $amount, string $currency): float
     {
         $rates = $this->api->handleApiData()->rates;
 
         foreach ($rates as $rate => $value) {
             if ($rate === $currency) {
-                $this->convertedAmount = ($amount * $value * $commissionValue) / 100;
+                $this->convertedAmount = $amount / $value;
             }
         }
 
