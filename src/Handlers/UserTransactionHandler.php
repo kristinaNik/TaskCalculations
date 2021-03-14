@@ -60,8 +60,6 @@ class UserTransactionHandler
 
         /** @var Transaction $transaction */
         foreach ($transactions as $transaction) {
-            $date = Carbon::parse('2016-01-10');
-
             foreach ($filterTransactionById as $key => $value) {
                 if ($key == $transaction->getUserId()) {
                     if ($transaction->getOperationType() === OperationType::WITHDRAW && $transaction->getUserType() === UserType::PRIVATE_CLIENT) {
