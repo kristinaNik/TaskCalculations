@@ -16,9 +16,9 @@ class TransactionFactory
      *
      * @return Transaction
      */
-    public static function createTransaction(string $date, int $userId, string $userType, string $operationType, float $operationAmount, string $operationCurrency): Transaction
+    public static function createTransaction(string $date, int $userId, string $userType, string $operationType, Money $operationAmount): Transaction
     {
-        return new Transaction($date, $userId, $userType, $operationType, $operationAmount, $operationCurrency);
+        return new Transaction($date, $userId, $userType, $operationType, $operationAmount);
 
     }
 }

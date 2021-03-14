@@ -70,8 +70,10 @@ class CommissionCalculationCommand extends Command
 
         $file = $this->fileHandler->handleCsvData($input->getArgument('file_path'));
         $transactions = $this->transactionBuilder->getTransactions($file);
+        $convertedTransactions = $this->transactionBuilder->getConvertTransactionHandler($transactions);
         $filterTransactionById = $this->transactionBuilder->getFilterTransactions($file);
-        $calculateCommissions = $this->calculationService->calculate($transactions, $filterTransactionById);
+        $userTransactions = $this->transactionBuilder->getUserTransactionHandler($convertedTransactions,$filterTransactionById);
+        $calculateCommissions = $this->calculationService->calculate($convertedTransactions, $userTransactions);
 
         $io->success($this->displayCalculatedResult($calculateCommissions));
 

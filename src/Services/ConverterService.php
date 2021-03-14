@@ -3,13 +3,14 @@ namespace App\Services;
 
 use App\Interfaces\ApiInterface;
 use App\Interfaces\ConvertInterface;
+use Evp\Component\Money\Money;
 
 class ConverterService implements ConvertInterface
 {
     /**
-     * @var float
+     * @var
      */
-    private float $convertedAmount;
+    private  $convertedAmount;
 
     /**
      * @var ApiInterface
@@ -28,21 +29,21 @@ class ConverterService implements ConvertInterface
     /**
      * Convert the amount be taking the exchange rates data from the api
      *
-     * @param float $amount
-     * @param string $currency
+     * @param Money $amount
+
      *
-     * @return float
+     * @return Money
      */
-    public function convert(float $amount, string $currency): float
+    public function convert(Money $amount): Money
     {
         $rates = $this->rates->getRates();
-
         foreach ($rates as $rate => $value) {
-            if ($rate === $currency) {
-                $this->convertedAmount = $amount / $value;
+            if ($rate === $amount->getCurrency()) {
+                $this->convertedAmount = $amount->div($value);
             }
         }
+        $this->convertedAmount->setCurrency('EUR');
 
-        return round($this->convertedAmount, 2);
+        return $this->convertedAmount;
     }
 }

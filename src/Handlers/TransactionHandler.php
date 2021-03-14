@@ -33,8 +33,7 @@ class TransactionHandler  implements TransactionInterface
                 $preparedData['userId'],
                 $preparedData['userType'],
                 $preparedData['operationType'],
-                $preparedData['operationAmount'],
-                $preparedData['operationCurrency']
+                new Money($preparedData['operationAmount'], $preparedData['operationCurrency']),
             );
         }
 

@@ -1,7 +1,9 @@
 <?php
 namespace App\Interfaces;
 
+use Evp\Component\Money\Money;
+
 interface ConvertInterface
 {
-    public function convert(float $amount,  string $currency): float;
+    public function convert(Money $amount): Money;
 }

@@ -1,6 +1,8 @@
 <?php
 namespace App\Handlers;
 
+use App\EnumTypes\OperationType;
+use App\EnumTypes\UserType;
 use App\Interfaces\FilterTransactionInterface;
 use App\Traits\PrepareDataTrait;
 use Carbon\Carbon;
@@ -28,11 +30,13 @@ class FilterTransactionHandler implements FilterTransactionInterface
     {
         foreach($fileData as $value) {
             $preparedData = $this->prepareData($value);
+            if ($preparedData['operationType'] === OperationType::WITHDRAW && $preparedData['userType'] === UserType::PRIVATE_CLIENT) {
+                $this->transactionById[] = $preparedData['userId'];
+            }
 
-            $this->transactionById[$preparedData['userId']] = $preparedData['date'];
         }
 
-        return $this->transactionById;
+        return array_count_values($this->transactionById);
     }
 
 }

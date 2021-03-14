@@ -26,14 +26,10 @@ class Transaction
     private string $operationType;
 
     /**
-     * @var float
+     * @var Money
      */
-    private float $operationAmount;
+    private Money $operationAmount;
 
-    /**
-     * @var string
-     */
-    private string $operationCurrency;
 
     /**
      * Transaction constructor.
@@ -42,17 +38,15 @@ class Transaction
      * @param int $userId
      * @param string $userType
      * @param string $operationType
-     * @param float $operationAmount
-     * @param string $operationCurrency
+     * @param Money $operationAmount
      */
-    public function __construct(string $date, int $userId, string $userType, string $operationType, float $operationAmount, string $operationCurrency)
+    public function __construct(string $date, int $userId, string $userType, string $operationType, Money $operationAmount)
     {
         $this->date = $date;
         $this->userId = $userId;
         $this->userType = $userType;
         $this->operationType = $operationType;
         $this->operationAmount = $operationAmount;
-        $this->operationCurrency = $operationCurrency;
     }
 
     /**
@@ -88,19 +82,12 @@ class Transaction
     }
 
     /**
-     * @return float
+     * @return Money
      */
-    public function getOperationAmount(): float
+    public function getOperationAmount(): Money
     {
         return $this->operationAmount;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getOperationCurrency(): string
-    {
-        return $this->operationCurrency;
-    }
 
 }

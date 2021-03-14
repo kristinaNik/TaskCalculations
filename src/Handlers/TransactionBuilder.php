@@ -18,16 +18,19 @@ class TransactionBuilder
      */
     private FilterTransactionInterface $filterTransactionHandler;
 
+    private UserTransactionHandler $userTransactionHandler;
+
     /**
      * TransactionBuilder constructor.
      *
      * @param TransactionInterface $transactionHandler
      * @param FilterTransactionInterface $filterTransactionHandler
      */
-    public function __construct(TransactionInterface $transactionHandler, FilterTransactionInterface $filterTransactionHandler)
+    public function __construct(TransactionInterface $transactionHandler, FilterTransactionInterface $filterTransactionHandler, UserTransactionHandler $userTransactionHandler)
     {
         $this->transactionHandler = $transactionHandler;
         $this->filterTransactionHandler = $filterTransactionHandler;
+        $this->userTransactionHandler = $userTransactionHandler;
     }
 
     /**
@@ -47,6 +50,20 @@ class TransactionBuilder
     public function getFilterTransactions(array $fileData): array
     {
         return $this->filterTransactionHandler->filterTransactionById($fileData);
+    }
+
+    /**
+     * @param $transactions
+     * @return array
+     */
+    public function getConvertTransactionHandler($transactions): array
+    {
+        return $this->userTransactionHandler->convertTransactions($transactions);
+    }
+
+    public function getUserTransactionHandler($transactions,$filterTransactionById): array
+    {
+        return $this->userTransactionHandler->getUserTransactions($transactions, $filterTransactionById);
     }
 
 }
