@@ -8,6 +8,7 @@ use App\Interfaces\CalculationInterface;
 use App\Interfaces\ConvertInterface;
 use App\Model\Transaction;
 use App\Model\UserTransaction;
+use Carbon\Carbon;
 use Evp\Component\Money\Money;
 
 class CalculationService implements CalculationInterface
@@ -75,10 +76,9 @@ class CalculationService implements CalculationInterface
     private function calculateWithdrawCommission(Transaction $data,$userTransactions): string
     {
         if ($data->getUserType() === UserType::PRIVATE_CLIENT) {
-//            if($this->getTotalAmount($data,$userTransactions)->isLte(Money::create(self::LIMIT, self::EUR))) {
-//                return Money::createZero(self::EUR);
-//            };
-
+            if ($userTransactions[$data->getUserId()]->getTotalAmount()->isLte(Money::create(self::LIMIT, self::EUR))) {
+                return Money::createZero(self::EUR);
+            }
             return $amount = $data->getOperationAmount()->mul($this->configHandler->getWithdrawPrivateClientFee())->div(100);
         }
 
