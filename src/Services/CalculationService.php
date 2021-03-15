@@ -84,22 +84,4 @@ class CalculationService implements CalculationInterface
 
         return $data->getOperationAmount()->mul($this->configHandler->getWithdrawBusinessClientFee())->div(100);
     }
-
-    /**
-     * @param $userTransactions
-     *
-     * @return
-     */
-    public function getTotalAmount(Transaction $data,$userTransactions)
-    {
-            $totalAmount = Money::createZero(self::EUR);
-            /** @var UserTransaction $userTransaction */
-            foreach ($userTransactions as $userTransaction) {
-                if ($data->getUserId() === key($userTransactions)) {
-                    $totalAmount = $userTransaction->getTotalAmount();
-                }
-            }
-
-            return $totalAmount;
-    }
 }
