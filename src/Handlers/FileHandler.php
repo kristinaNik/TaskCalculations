@@ -2,6 +2,7 @@
 namespace App\Handlers;
 
 use App\Interfaces\FileInterface;
+use App\Iterators\FileIterator;
 
 class FileHandler implements FileInterface
 {
@@ -13,19 +14,18 @@ class FileHandler implements FileInterface
      */
     public function handleCsvData(string $file): array
     {
-        $data = [];
+        $fileData = [];
+
         if ($this->check($file)) {
-            $handle = fopen($file, "r");
-            while (($row = fgetcsv($handle)) !== FALSE) {
-                $data[] = $row;
+            $iterator = new FileIterator($file);
+            foreach ($iterator as $i => $row) {
+                $fileData[] = $row;
             }
 
-            fclose($handle);
-            unset($data[0]);
         }
+        unset($fileData[0]);
 
-
-        return $data;
+        return $fileData;
     }
 
     /**

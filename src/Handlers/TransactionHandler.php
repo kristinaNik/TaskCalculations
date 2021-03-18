@@ -25,9 +25,8 @@ class TransactionHandler  implements TransactionInterface
      */
     public function getTransactions(array $fileData): array
     {
-        foreach($fileData as $value) {
+        foreach($fileData as $key => $value) {
             $preparedData = $this->prepareData($value);
-
             $this->transactions[] = TransactionFactory::createTransaction(
                 $preparedData['date'],
                 $preparedData['userId'],
