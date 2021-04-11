@@ -1,7 +1,6 @@
 <?php
 namespace App\Factories;
-
-use App\Configuration;
+use App\Configurations\Configuration;
 
 class ConfigFactory
 {

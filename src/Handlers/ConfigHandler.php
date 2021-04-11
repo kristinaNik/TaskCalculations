@@ -3,7 +3,7 @@
 
 namespace App\Handlers;
 
-use App\Configuration;
+use App\Configurations\Configuration;
 use App\Factories\ConfigFactory;
 
 class ConfigHandler

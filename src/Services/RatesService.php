@@ -26,7 +26,11 @@ class RatesService
 
     public function getRates()
     {
-        return $this->api->handleApiData()->rates;
+        try {
+            return $this->api->handleApiData()->rates;
+        } catch (\Exception $exception) {
+            throw new \Exception("Rates are not available");
+        }
     }
 
 }

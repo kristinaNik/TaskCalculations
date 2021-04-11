@@ -39,7 +39,7 @@ class ConverterService implements ConvertInterface
         $rates = $this->rates->getRates();
         foreach ($rates as $rate => $value) {
             if ($rate === $amount->getCurrency()) {
-                $this->convertedAmount = $amount->div($value);
+                $this->convertedAmount = $amount->mul($value);
             }
         }
         $this->convertedAmount->setCurrency('EUR');

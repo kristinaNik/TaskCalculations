@@ -6,6 +6,7 @@ use App\Handlers\FileHandler;
 use App\Handlers\FilterTransactionHandler;
 use App\Handlers\TransactionBuilder;
 use App\Handlers\TransactionHandler;
+use App\Handlers\UserTransactionHandler;
 use App\Services\CalculationService;
 use App\Services\ConverterService;
 use PHPUnit\Framework\TestCase;
@@ -33,7 +34,7 @@ class CommissionsTest extends TestCase
         parent::__construct($name, $data, $dataName);
         $this->file = new FileHandler();
         $this->csvData = $this->file->handleCsvData('src/Data/input.csv');
-        $this->transactionBuilder = new TransactionBuilder(new TransactionHandler(), new FilterTransactionHandler());
+        $this->transactionBuilder = new TransactionBuilder(new TransactionHandler(), new FilterTransactionHandler(), new UserTransactionHandler(new ConverterService()));
     }
 
     public function testCsvHandler()
@@ -57,24 +58,24 @@ class CommissionsTest extends TestCase
     {
         $getTransactions = $this->transactionBuilder->getTransactions($this->csvData);
         $filterTransactionsById = $this->transactionBuilder->getFilterTransactions($this->csvData);
-        $calculationService = new CalculationService(new ConverterService(new ApiHandler()));
+        $calculationService = new CalculationService();
         $commissions = $calculationService->calculate($getTransactions, $filterTransactionsById);
 
         $this->assertIsArray($commissions);
         $this->assertSame([
-                "3.60",
-                "3.00",
-                "0.00",
-                "0.06",
-                "1.50",
-                "0.70",
-                "3.00",
-                "0.25",
-                "0.00",
-                "3.00",
-                "0.00",
-                "0.00",
-                "69.82"
+                "3.60 EUR",
+                "3.00 EUR",
+                "3.00 EUR",
+                "0.06 EUR ",
+                "1.50 EUR",
+                "0.69 EUR",
+                "3.00 EUR",
+                "0.25 EUR",
+                "0.30 EUR",
+                "3.00 EUR",
+                "0.00 EUR",
+                "0.90 EUR",
+                "69.82 EUR"
         ], $commissions);
     }
 
