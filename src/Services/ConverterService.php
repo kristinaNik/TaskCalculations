@@ -30,7 +30,7 @@ class ConverterService implements ConvertInterface
      * Convert the amount be taking the exchange rates data from the api
      *
      * @param Money $amount
-
+     *
      *
      * @return Money
      */
@@ -39,7 +39,7 @@ class ConverterService implements ConvertInterface
         $rates = $this->rates->getRates();
         foreach ($rates as $rate => $value) {
             if ($rate === $amount->getCurrency()) {
-                $this->convertedAmount = $amount->mul($value);
+                $this->convertedAmount = $amount->div($value);
             }
         }
         $this->convertedAmount->setCurrency('EUR');
