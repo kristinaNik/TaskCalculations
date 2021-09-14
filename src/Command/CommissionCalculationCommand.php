@@ -1,9 +1,15 @@
 <?php
 namespace App\Command;
 
+use App\Controller\CalculatorController;
 use App\Handlers\TransactionBuilder;
+use App\Input\ReaderInterface;
 use App\Interfaces\CalculationInterface;
 use App\Interfaces\FileInterface;
+use App\Normalizers\TransactionNormalizer;
+use App\Providers\CommissionRuleProvider;
+use App\Providers\ConversionRateProvider;
+use App\Services\Calculator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -14,39 +20,31 @@ class CommissionCalculationCommand extends Command
 {
     protected static $defaultName = 'calculate:commission';
     protected static $defaultDescription = 'Calculate commission';
-
     /**
-     * @var FileInterface
+     * @var ReaderInterface
      */
-    private FileInterface $fileHandler;
-
+    private $reader;
     /**
-     * @var TransactionBuilder
+     * @var TransactionNormalizer
      */
-    private TransactionBuilder $transactionBuilder;
-
+    private $normalizer;
     /**
-     * @var CalculationInterface
+     * @var Calculator
      */
-    private CalculationInterface $calculationService;
+    private $calculator;
 
 
-    /**
-     * CommissionCalculationCommand constructor.
-     * @param FileInterface $fileHandler
-     * @param CalculationInterface $calculationService
-     * @param TransactionBuilder $transactionBuilder
-     */
     public function __construct(
-        FileInterface $fileHandler,
-        CalculationInterface $calculationService,
-        TransactionBuilder $transactionBuilder
-    )
-    {
+        ReaderInterface $reader,
+        TransactionNormalizer $normalizer,
+        Calculator $calculator
+
+    ){
         parent::__construct();
-        $this->fileHandler = $fileHandler;
-        $this->calculationService = $calculationService;
-        $this->transactionBuilder = $transactionBuilder;
+
+        $this->reader = $reader;
+        $this->normalizer = $normalizer;
+        $this->calculator = $calculator;
     }
 
 
@@ -66,28 +64,14 @@ class CommissionCalculationCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
+        $transactions = $this->reader->getTransactions($input->getArgument('file_path'));
 
-        $file = $this->fileHandler->handleCsvData($input->getArgument('file_path'));
-        $transactions = $this->transactionBuilder->getTransactions($file);
-        $convertedTransactions = $this->transactionBuilder->getConvertTransactionHandler($transactions);
-        $filterTransactionById = $this->transactionBuilder->getFilterTransactions($file);
-        $userTransactions = $this->transactionBuilder->getUserTransactionHandler($convertedTransactions,$filterTransactionById);
-        $calculateCommissions = $this->calculationService->calculate($convertedTransactions, $userTransactions);
-
-        $io->success($this->displayCalculatedResult($calculateCommissions));
+        foreach ($transactions as $transaction) {
+            $transaction = $this->normalizer->mapToEntity($transaction);
+            $commission = $this->calculator->calculate($transaction);
+            $output->writeln($commission);
+        }
 
         return Command::SUCCESS;
-    }
-
-
-    /**
-     * @param $calculateCommissions
-     *
-     * @return array
-     */
-    private function displayCalculatedResult(array $calculateCommissions): array
-    {
-        return array_values($calculateCommissions);
     }
 }

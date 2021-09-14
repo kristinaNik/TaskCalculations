@@ -1,4 +1,3 @@
-date,user_id,user_type,operation_type,operation_amount,operation_currency
 2014-12-31,4,private,withdraw,1200,EUR
 2015-01-01,4,private,withdraw,1000,EUR
 2016-01-05,4,private,withdraw,1000,EUR
