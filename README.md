@@ -8,17 +8,18 @@
     bin/console calculate:commission src/Data/input.csv
    
    **Output**
-   0.60 EUR
-   3.00 EUR
-   0.00 EUR
-   0.06 EUR
-   1.50 EUR
-   0 JPY
-   0.70 EUR
-   0.30 USD
-   0.30 EUR
-   3.00 EUR
-   0.00 EUR
-   0.00 EUR
-   8612 JPY
+   
+    0.60 EUR
+    3.00 EUR
+    0.00 EUR
+    0.06 EUR
+    1.50 EUR
+    0 JPY
+    0.70 EUR
+    0.30 USD
+    0.30 EUR
+    3.00 EUR
+    0.00 EUR
+    0.00 EUR
+    8612 JPY
 
